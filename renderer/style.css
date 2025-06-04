@@ -1,0 +1,29 @@
+body {
+    background: linear-gradient(to right, #fbd3e9, #bbd2c5);
+    font-family: 'Comic Sans MS', cursive;
+    padding: 20px;
+    color: #333;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px #ccc;
+  }
+  
+  .timer-section, .journal-section {
+    margin: 20px 0;
+  }
+  
+  button {
+    background: #ffb6b9;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
