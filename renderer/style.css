@@ -1,6 +1,6 @@
 body {
     background: linear-gradient(to right, #fbd3e9, #bbd2c5);
-    font-family: 'Comic Sans MS', cursive;
+    font-family:  'Quicksand', sans-serif;
     padding: 20px;
     color: #333;
   }
@@ -26,4 +26,22 @@ body {
     cursor: pointer;
     font-weight: bold;
   }
+  .entries-section {
+    margin-top: 30px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 0 5px rgba(0,0,0,0.05);
+  }
+  
+  .entry-item {
+    margin-bottom: 15px;
+    border-left: 4px solid #ffc0cb;
+    padding-left: 10px;
+    font-size: 0.95rem;
+    color: #555;
+  }
+  
   

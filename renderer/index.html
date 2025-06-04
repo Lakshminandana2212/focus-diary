@@ -11,10 +11,17 @@
 
     <div class="timer-section">
       <h2 id="timer">25:00</h2>
-      <button id="start-btn">Start Pomodoro</button>
+      <div class="timer-buttons">
+        <button id="start-btn">Start</button>
+        <button id="pause-btn">Pause</button>
+        <button id="reset-btn">Reset</button>
     </div>
 
     <div class="journal-section">
+      <div class="entries-section">
+        <h3>📚 Past Entries</h3>
+        <div id="entries-container"></div>
+      </div>      
       <h3>💭 How are you feeling today?</h3>
       <select id="mood">
         <option>😊</option>
