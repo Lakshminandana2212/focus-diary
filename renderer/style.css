@@ -1,124 +1,140 @@
 body {
-    font-family: 'Poppins', cursive;
-    background: #e7c0d0;
-    color: #776ace;
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #fff0f5, #ffe4e1);
+    color: #444;
     margin: 0;
     padding: 2rem;
+    overflow-x: hidden;
+    animation: fadeIn 1s ease;
   }
-h1 {
-    text-align: center;
-    color: #4784c9;
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-  }  
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   .container {
     max-width: 500px;
     margin: auto;
-    background: #dce9c2;
+    background: #ffeef7;
     padding: 2rem;
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(255, 192, 203, 0.3);
+    box-shadow: 0 10px 30px rgba(255, 192, 203, 0.4);
     text-align: center;
+    position: relative;
+    animation: popIn 0.7s ease;
   }
-  
-  
-  .timer-section, .journal-section {
-    margin: 20px 0;
+
+  @keyframes popIn {
+    0% { transform: scale(0.95); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
   }
+
+  h1 {
+    font-size: 2.5rem;
+    color: #ff85a2;
+    margin-bottom: 1rem;
+    animation: floatText 3s ease-in-out infinite;
+  }
+
+  @keyframes floatText {
+    0%, 100% { transform: translateY(100); }
+    80% { transform: translateY(-100px); }
+  }
+
   .timer-section h2 {
     font-size: 3rem;
     margin-bottom: 1rem;
   }
-  
-  #start-btn {
-    background: #8eb9e4;
+
+  button {
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  #start-btn, #save-entry {
+    background: #9286d5;
     border: none;
-    color: rgb(245, 245, 245);
+    color: white;
     padding: 0.8rem 1.5rem;
     border-radius: 15px;
     font-display: swap;
     font-family: 'Poppins', cursive;
     font-style: italic;
     font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
+    margin-top: 1rem;
   }
-  
-  #start-btn:hover {
+
+  #start-btn:hover, #save-entry:hover {
     background: #ff7090;
+    transform: scale(1.05);
   }
-  
   #pause-btn {
-    background: #8eb9e4;
+    background: #9286d5;
     border: none;
-    color: rgb(255, 255, 255);
+    color: white;
     padding: 0.8rem 1.5rem;
     border-radius: 15px;
     font-display: swap;
     font-family: 'Poppins', cursive;
     font-style: italic;
     font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    
+    margin-top: 1rem;
   }
+
   #pause-btn:hover {
     background: #ff7090;
+    transform: scale(1.05);
   }
 
   #reset-btn {
-    background: #8eb9e4;
+    background: #9286d5;
     border: none;
-    color: rgb(248, 249, 255);
+    color: white;
     padding: 0.8rem 1.5rem;
     border-radius: 15px;
     font-display: swap;
     font-family: 'Poppins', cursive;
     font-style: italic;
     font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
+    margin-top: 1rem;
   }
+
   #reset-btn:hover {
     background: #ff7090;
+    transform: scale(1.05);
   }
-  button {
-    background: #ffb6b9;
+  #back-btn {
+    background: #9286d5;
     border: none;
-    padding: 10px 20px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: bold;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 15px;
+    font-display: swap;
+    font-family: 'Poppins', cursive;
+    font-style: italic;
+    font-size: 1rem;
+    margin-top: 1rem;
   }
-  .entries-section {
-    margin-top: 30px;
-    background: #aacbe2;
-    padding: 15px;
-    border-radius: 12px;
-    max-height: 200px;
-    overflow-y: auto;
-    box-shadow: 0 0 5px rgba(116, 96, 190, 0.05);
-  }
-  
-  .entry-item {
-    margin-bottom: 15px;
-    border-left: 4px solid #d1bed2;
-    padding-left: 10px;
-    font-size: 0.95rem;
-    color: #6a8fd7;
+
+  #back-btn:hover {
+    background: #ff7090;
+    transform: scale(1.05);
   }
   .journal-section {
     margin-top: 2rem;
   }
-  
+
   #mood {
-    font-size: 1.5rem;
+    font-size: 1rem;
+    font-family: "Poppins", cursive;
     padding: 0.5rem;
     border-radius: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #b0a7e8;
     margin-bottom: 1rem;
+    background: #e2e2c3;
   }
-  
+
   #entry {
     width: 100%;
     height: 120px;
@@ -130,21 +146,13 @@ h1 {
     background: #fff;
     margin-top: 0.5rem;
     margin-bottom: 1rem;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
   }
-  
-  #save-entry {
-    background: #ffa7c4;
-    border: none;
-    color: white;
-    padding: 0.7rem 1.5rem;
-    border-radius: 15px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
+
+  .footer-quote {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 2rem;
+    animation: fadeIn 2s ease 0.5s both;
   }
-  
-  #save-entry:hover {
-    background: #ff91b2;
-  }
-  
-  

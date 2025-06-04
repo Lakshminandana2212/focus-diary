@@ -1,31 +1,40 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
+const fs = require('fs');
 const path = require('path');
 
 function createWindow() {
-    const win = new BrowserWindow({
-        width: 800,
-        height: 600,
-        webPreferences: {
-            nodeIntegration: true,
-            contextIsolation: false,
-
-        }
-    });
-    win.loadFile('renderer/index.html');
-}
-const { ipcMain } = require('electron');
-const fs = require('fs');
-
-ipcMain.on('save-entry', (event, content) => {
-  const today = new Date().toLocaleDateString();
-  const filePath = `journal-${today}.txt`;
-  fs.writeFile(filePath, content, (err) => {
-    if (err) console.error(err);
+  const win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js')
+    }
   });
+  win.loadFile('renderer/index.html');
+}
+
+ipcMain.handle('save-entry', async (event, newEntry) => {
+  const filePath = path.join(__dirname, 'renderer', 'journal-entries.json');
+  let entries = [];
+
+  try {
+    const data = fs.readFileSync(filePath, 'utf8');
+    entries = JSON.parse(data);
+  } catch (e) {
+    entries = [];
+  }
+
+  entries.push(newEntry);
+  fs.writeFileSync(filePath, JSON.stringify(entries, null, 2));
 });
 
-
-app.whenReady().then(() => {
-  createWindow();
+ipcMain.handle('get-entries', () => {
+  const filePath = path.join(__dirname, 'renderer', 'journal-entries.json');
+  try {
+    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  } catch (e) {
+    return [];
+  }
 });
 
+app.whenReady().then(createWindow);

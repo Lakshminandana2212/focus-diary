@@ -8,5 +8,13 @@
     "date": "6/4/2025",
     "mood": "😔",
     "text": "hi"
-  }
+  },
+  {
+    "date": "6/4/2025",
+    "mood": "😊 Happy",
+    "text": "hi"
+  },
+  "Mood: 😊 Happy\nEntry: \nAffirmation: Keep smiling! 🌞",
+  "Mood: 😊 Happy\nEntry: hi\nAffirmation: Keep smiling! 🌞",
+  "Mood: 😔 Sad\nEntry: ...\nAffirmation: It’s okay to feel down. Better days are coming 💕"
 ]

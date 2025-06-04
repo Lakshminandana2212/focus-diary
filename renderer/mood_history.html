@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🌸 Mood History</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #fffafc;
+      font-family: 'Nunito', sans-serif;
+      padding: 2rem;
+      color: #444;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: #e178a5;
+    }
+    .entry-card {
+      background: #ffe8f0;
+      border-radius: 15px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      animation: fadeIn 0.6s ease;
+    }
+    .entry-card h3 {
+      margin-top: 0;
+      color: #d1498d;
+    }
+    .entry-card p {
+      margin: 0.3rem 0;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .back-btn {
+      display: block;
+      margin: 1rem auto;
+      background: #ffc0cb;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .back-btn:hover {
+      background: #ffb1c5;
+    }
+  </style>
+</head>
+<body>
+  <h1>📔 Mood Journal History</h1>
+  <div id="entries-container"></div>
+  <button class="back-btn" onclick="window.location.href='index.html'">← Back to Journal</button>
+
+  <script>
+    window.electronAPI.getEntries().then(entries => {
+      const container = document.getElementById("entries-container");
+      if (entries.length === 0) {
+        container.innerHTML = "<p>No entries yet 💭</p>";
+        return;
+      }
+
+      entries.reverse().forEach(entry => {
+        const card = document.createElement("div");
+        card.className = "entry-card";
+        card.innerHTML = `
+          <h3>${entry.date} — ${entry.mood}</h3>
+          <p><strong>Entry:</strong> ${entry.entry}</p>
+          <p><strong>Affirmation:</strong> ${entry.affirmation}</p>
+        `;
+        container.appendChild(card);
+      });
+    });
+  </script>
+</body>
+</html>

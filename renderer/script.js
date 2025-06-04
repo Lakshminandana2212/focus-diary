@@ -1,104 +1,77 @@
-const fs = require('fs');
-const path = require('path');
-const journalFile = path.join(__dirname, 'journal-entries.json');
-
-
-
-
+// script.js
 let timerDisplay = document.getElementById("timer");
 let startBtn = document.getElementById("start-btn");
-let pauseBtn = document.getElementById("pause-btn");
-let resetBtn = document.getElementById("reset-btn");
-
-let totalTime = 25 * 60; // 25 mins in seconds
+let totalTime = 25 * 60; // 25 minutes
 let timer;
-let isPaused = false;
-
-function updateDisplay() {
-  let mins = String(Math.floor(totalTime / 60)).padStart(2, '0');
-  let secs = String(totalTime % 60).padStart(2, '0');
-  timerDisplay.textContent = `${mins}:${secs}`;
-}
 
 startBtn.addEventListener("click", () => {
-  if (timer || totalTime <= 0) return;
-
+  if (timer) return; // prevent multiple clicks
   timer = setInterval(() => {
-    if (!isPaused) {
-      totalTime--;
-      updateDisplay();
+    totalTime--;
+    let mins = String(Math.floor(totalTime / 60)).padStart(2, '0');
+    let secs = String(totalTime % 60).padStart(2, '0');
+    timerDisplay.textContent = `${mins}:${secs}`;
 
-      if (totalTime <= 0) {
-        clearInterval(timer);
-        timer = null;
-        new Notification("Pomodoro Complete!", {
-          body: "Take a short break 🌸",
-        });
-        totalTime = 25 * 60;
-        updateDisplay();
-      }
+    if (totalTime <= 0) {
+      clearInterval(timer);
+      timer = null;
+      playDing();
+      alert("Pomodoro complete! 🎉 Time for a break 🌸");
+      totalTime = 25 * 60;
+      timerDisplay.textContent = "25:00";
     }
   }, 1000);
 });
 
-pauseBtn.addEventListener("click", () => {
-  isPaused = !isPaused;
-  pauseBtn.textContent = isPaused ? "Resume" : "Pause";
+function playDing() {
+  const audio = new Audio("https://notificationsounds.com/storage/sounds/file-sounds-1101-pristine.mp3");
+  audio.play();
+}
+
+document.getElementById("save-entry").addEventListener("click", () => {
+  const mood = document.getElementById("mood").value;
+  const entry = document.getElementById("entry").value;
+  const today = new Date().toLocaleDateString();
+
+  const moodAffirmations = {
+    "😊 Happy": "Keep smiling! 🌞",
+    "😔 Sad": "It’s okay to feel down. Better days are coming 💕",
+    "😡 Angry": "Breathe in calm, breathe out stress. You’ve got this 🧘‍♀️",
+    "🥰 Loved": "You are deeply cherished 💖",
+    "😴 Tired": "Rest is productive too 🌙",
+    "😌 Relaxed": "Peace looks good on you 🍃"
+  };
+
+  const affirmation = moodAffirmations[mood] || "You're doing great 💪";
+  const content = `Mood: ${mood}\nEntry: ${entry}\nAffirmation: ${affirmation}`;
+
+  window.electronAPI.saveEntry(content);
+
+  const confirmBox = document.createElement("div");
+  confirmBox.textContent = "🌼 Entry saved!";
+  confirmBox.style.position = "fixed";
+  confirmBox.style.bottom = "20px";
+  confirmBox.style.left = "50%";
+  confirmBox.style.transform = "translateX(-50%)";
+  confirmBox.style.background = "#ffb6c1";
+  confirmBox.style.color = "#fff";
+  confirmBox.style.padding = "0.75rem 1.5rem";
+  confirmBox.style.borderRadius = "10px";
+  confirmBox.style.boxShadow = "0 4px 12px rgba(0,0,0,0.2)";
+  confirmBox.style.zIndex = "1000";
+  confirmBox.style.fontFamily = "'Nunito', sans-serif";
+  document.body.appendChild(confirmBox);
+
+  setTimeout(() => {
+    confirmBox.remove();
+  }, 3000);
 });
-
-resetBtn.addEventListener("click", () => {
-  clearInterval(timer);
-  timer = null;
-  totalTime = 25 * 60;
-  updateDisplay();
-  isPaused = false;
-  pauseBtn.textContent = "Pause";
-});
-
-updateDisplay(); // Set initial display
-
-
-  function loadEntries() {
-    const container = document.getElementById("entries-container");
-    container.innerHTML = "";
+const content = {
+    date: today,
+    mood: mood,
+    entry: entry,
+    affirmation: affirmation
+  };
   
-    if (fs.existsSync(journalFile)) {
-      const data = fs.readFileSync(journalFile);
-      const entries = JSON.parse(data);
+  window.electronAPI.saveEntry(content);
   
-      entries.reverse().forEach(entry => {
-        const div = document.createElement("div");
-        div.className = "entry-item";
-        div.innerHTML = `<strong>${entry.date} - ${entry.mood}</strong><br>${entry.text}`;
-        container.appendChild(div);
-      });
-    }
-  }
-  
-  document.getElementById("save-entry").addEventListener("click", () => {
-    const mood = document.getElementById("mood").value;
-    const entry = document.getElementById("entry").value.trim();
-    const today = new Date().toLocaleDateString();
-  
-    if (!entry) return alert("Please write something 🌸");
-  
-    const newEntry = {
-      date: today,
-      mood: mood,
-      text: entry
-    };
-  
-    let entries = [];
-    if (fs.existsSync(journalFile)) {
-      entries = JSON.parse(fs.readFileSync(journalFile));
-    }
-  
-    entries.push(newEntry);
-    fs.writeFileSync(journalFile, JSON.stringify(entries, null, 2));
-  
-    alert("Entry saved! 💖");
-    document.getElementById("entry").value = "";
-    loadEntries();
-  });
-
-  loadEntries();

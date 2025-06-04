@@ -1,5 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  saveEntry: (content) => ipcRenderer.send('save-entry', content)
+  saveEntry: (data) => ipcRenderer.invoke('save-entry', data),
+  getEntries: () => ipcRenderer.invoke('get-entries')
 });

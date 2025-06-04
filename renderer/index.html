@@ -3,7 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <title>FocusFeels</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #fff0f5, #ffe4e1);
+      color: #444;
+      margin: 0;
+      padding: 2rem;
+      overflow-x: hidden;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: #ffeef7;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(255, 192, 203, 0.4);
+      text-align: center;
+      position: relative;
+      animation: popIn 0.7s ease;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.95); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #ff85a2;
+      margin-bottom: 1rem;
+      animation: floatText 3s ease-in-out infinite;
+    }
+
+    @keyframes floatText {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .timer-section h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    #start-btn, #save-entry {
+      background: #9286d5;
+      border: none;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 15px;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+
+    #start-btn:hover, #save-entry:hover {
+      background: #ff7090;
+      transform: scale(1.05);
+    }
+
+    .journal-section {
+      margin-top: 2rem;
+    }
+
+    #mood {
+      font-size: 1rem;
+      font-family: "Poppins", cursive;
+      padding: 0.5rem;
+      border-radius: 10px;
+      border: 1px solid #b0a7e8;
+      margin-bottom: 1rem;
+      background: #e2e2c3;
+    }
+
+    #entry {
+      width: 100%;
+      height: 120px;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 15px;
+      font-size: 1rem;
+      resize: none;
+      background: #fff;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .footer-quote {
+      font-style: italic;
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: 2rem;
+      animation: fadeIn 2s ease 0.5s both;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -18,21 +125,71 @@
     </div>
 
     <div class="journal-section">
-      <div class="entries-section">
-        <h3>📚 Past Entries</h3>
-        <div id="entries-container"></div>
-      </div>      
       <h3>💭 How are you feeling today?</h3>
       <select id="mood">
-        <option>😊</option>
-        <option>😔</option>
-        <option>😡</option>
-        <option>🥰</option>
+        <option>😊 Happy</option>
+        <option>😔 Sad</option>
+        <option>😡 Angry</option>
+        <option>🥰 Loved</option>
+        <option>😴 Tired</option>
+        <option>😌 Relaxed</option>
       </select>
       <textarea id="entry" placeholder="Write your thoughts..."></textarea>
       <button id="save-entry">Save Entry</button>
+      <button id="back-btn" onclick="window.location.href='mood_history.html'">📖 View Mood History</button>
+
+    </div>
+
+    <div class="footer-quote">
+      "One pomodoro at a time, you’re blooming beautifully. 🌼"
     </div>
   </div>
   <script src="script.js"></script>
 </body>
 </html>
+<script>
+  let timer;
+  let timeLeft = 25 * 60; // 25 minutes in seconds
+
+  const timerDisplay = document.getElementById('timer');
+  const startBtn = document.getElementById('start-btn');
+  const saveEntryBtn = document.getElementById('save-entry');
+  const moodSelect = document.getElementById('mood');
+  const entryTextarea = document.getElementById('entry');
+
+  function updateTimerDisplay() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  }
+
+  function startTimer() {
+    if (timer) return; // Prevent multiple timers
+    timer = setInterval(() => {
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        timer = null;
+        alert("Time's up! Take a break. 🌼");
+      } else {
+        timeLeft--;
+        updateTimerDisplay();
+      }
+    }, 1000);
+  }
+
+  function saveEntry() {
+    const mood = moodSelect.value;
+    const entry = entryTextarea.value.trim();
+    if (!entry) {
+      alert("Please write something before saving.");
+      return;
+    }
+    console.log(`Mood: ${mood}, Entry: ${entry}`);
+    alert("Your entry has been saved! 🌸");
+    entryTextarea.value = ''; // Clear the textarea
+  }
+
+  startBtn.addEventListener('click', startTimer);
+  saveEntryBtn.addEventListener('click', saveEntry);
+
+  updateTimerDisplay(); // Initial display
