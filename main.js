@@ -28,3 +28,4 @@ ipcMain.on('save-entry', (event, content) => {
 app.whenReady().then(() => {
   createWindow();
 });
+
