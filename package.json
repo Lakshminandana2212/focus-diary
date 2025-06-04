@@ -1,18 +1,12 @@
 {
   "name": "focus-diary",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "A cute aesthetic Pomodoro + Mood Diary app",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
     "start": "electron ."
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "devDependencies": {
-    "electron": "^36.3.2"
+    "electron": "^30.0.0"
   }
-  
-
 }

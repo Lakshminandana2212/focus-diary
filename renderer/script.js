@@ -23,16 +23,11 @@ startBtn.addEventListener("click", () => {
 });
 
 document.getElementById("save-entry").addEventListener("click", () => {
-  const mood = document.getElementById("mood").value;
-  const entry = document.getElementById("entry").value;
-  const today = new Date().toLocaleDateString();
-
-  const fs = require('fs');
-  const filePath = `journal-${today}.txt`;
-  const content = `Mood: ${mood}\nEntry: ${entry}`;
-
-  fs.writeFile(filePath, content, (err) => {
-    if (err) return alert("Failed to save entry.");
+    const mood = document.getElementById("mood").value;
+    const entry = document.getElementById("entry").value;
+    const content = `Mood: ${mood}\nEntry: ${entry}`;
+    
+    window.electronAPI.saveEntry(content);
     alert("Entry saved! 🌼");
   });
-});
+  
